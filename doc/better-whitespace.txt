@@ -117,6 +117,9 @@ stripped when you save the file.
 `g:show_spaces_that_precede_tabs`                 (defaults to 0)
 Set this to match space characters that appear before or in-between tabs
 
+`g:show_mixed_whitespace_indentations`            (defaults to 0)
+Set this to match mixed whitespace indentations
+
 `g:strip_whitespace_on_save`                      (defaults to 0)
 Set this to enable stripping whitespace on file save for files where
 better-whitespace is enabled.

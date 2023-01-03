@@ -28,6 +28,9 @@ call s:InitVariable('better_whitespace_enabled', 1)
 " Set this to match space characters that appear before or in-between tabs
 call s:InitVariable('show_spaces_that_precede_tabs', 0)
 
+" Set this to match mixed whitespace indentations
+call s:InitVariable('show_mixed_whitespace_indentations', 0)
+
 " Set this to disable highlighting on the current line in all modes
 " WARNING: This checks for current line on cursor move, which can significantly
 "          impact the performance of Vim (especially on large files)
@@ -77,6 +80,7 @@ endif
 " Define custom whitespace character group to include all horizontal unicode
 " whitespace characters except tab (\u0009). Vim's '\s' class only includes ASCII spaces and tabs.
 let s:whitespace_chars='\u0020\u00a0\u1680\u180e\u2000-\u200b\u202f\u205f\u3000\ufeff'
+let s:whitespace_chars_all = '[\u0009' . s:whitespace_chars . ']'
 let s:eol_whitespace_pattern = '[\u0009' . s:whitespace_chars . ']\+$'
 
 if g:better_whitespace_skip_empty_lines == 1
@@ -87,6 +91,11 @@ let s:strip_whitespace_pattern = s:eol_whitespace_pattern
 let s:strip_whitelines_pattern = '\(\n\)\+\%$'
 if g:show_spaces_that_precede_tabs == 1
     let s:eol_whitespace_pattern .= '\|[' . s:whitespace_chars . ']\+\ze[\u0009]'
+endif
+
+if g:show_mixed_whitespace_indentations == 1
+    let s:eol_whitespace_pattern .= '\|[' . s:whitespace_chars . ']\+[\u0009]\+' . s:whitespace_chars_all . '*'
+    let s:eol_whitespace_pattern .= '\|[\u0009]\+[' . s:whitespace_chars . ']\+' . s:whitespace_chars_all . '*'
 endif
 
 " Only init once
